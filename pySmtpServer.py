@@ -2,6 +2,7 @@ import asyncore, argparse, os, cmd
 import threading, collections, enum
 from smtpd import SMTPServer
 from datetime import datetime
+import time
 
 
 class SmtpReceiverState(enum.Enum):
@@ -81,7 +82,6 @@ class pySmtpReceiver(object):
         remote_addess = None if not (self.arguments.ip_address_remote and self.arguments.port_remote) else (self.arguments.ip_address_remote, self.arguments.port_remote)
         print("Starting SMTP server on (Address = %s, Port = %d)" % (local_address[0], local_address[1]))
         self.smtp_server = pySmtpServer(local_address, remote_addess, self.arguments.file_log, self.arguments.log_dir, self.arguments.max_email)
-        self.smtp_server.send()
         self.thread = threading.Thread(target=asyncore.loop, kwargs = {'timeout':1} )
         self.thread.start()
         self.state = SmtpReceiverState.RUNNING
@@ -140,8 +140,17 @@ class PySmtpShell(cmd.Cmd):
 
     def do_last_email(self, arg):
         'Print last email received in the buffer: LAST_EMAIL'
-        last_email = self.receiver.get().popleft()
-        print(str(last_email))
+        if(self.receiver.count() > 0):
+            last_email = self.receiver.get().popleft()
+            print(str(last_email))
+        else:
+            print("No email in the receiver buffer!")
+
+    def do_print_all_email(self, arg):
+        'Print all email received in the buffer: PRINT_ALL_EMAIL'
+        emails = self.receiver.get()
+        for email in emails:
+            print(str(email))
 
     def do_start(self, arg):
         'Start the server listening: START'
@@ -180,10 +189,25 @@ def main():
                              'If directory not exists it will be created')
     parser.add_argument('-max_email', action="store", dest="max_email", default=50,
                         help='Max number of email to keep in memory. The emails are keep in memory with a circular buffer.')
-    parser.add_argument('-start', action="store_true", dest="auto_start", default=False,
+    parser.add_argument('-as', '--auto_start', action="store_true", dest="auto_start", default=False,
                         help='Auto start server SMTP server listening with the default parameters.')
+    parser.add_argument('-s','--shell', action="store_true", dest="shell_mode", default=True,
+                        help='Start server SMTP listening with the default parameters in shell interactive mode.')
+
     arguments = parser.parse_args()
-    PySmtpShell(arguments, parser).cmdloop()
+    if(arguments.shell_mode):
+        PySmtpShell(arguments, parser).cmdloop()
+    else:
+        receiver = pySmtpReceiver()
+        receiver.set_parameters(arguments)
+        receiver.start()
+        try:
+            while True:
+                if receiver.count() > 0:
+                    print(str(receiver.get().popleft()))
+                time.sleep(0.1)
+        except KeyboardInterrupt:
+            receiver.stop()
 
 
 if __name__ == '__main__':
