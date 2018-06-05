@@ -9,7 +9,6 @@ class PySmtpController(Controller):
         super().__init__(handler,
                          hostname=arguments.ip_address_local if arguments else None,
                          port=arguments.port_local if arguments else 8025,
-                         ssl_context=arguments.context if arguments else None,
                          *args, **kwargs)
 
     def get_email_counter(self):
