@@ -1,7 +1,7 @@
 import argparse
 
 
-class MyArgumentParser():
+class PySmtpArgumentParser():
     instance = None
 
     class __MyArgumentParser(argparse.ArgumentParser):
@@ -35,8 +35,8 @@ class MyArgumentParser():
             return repr(self)
 
     def __init__(self, *arg):
-        if not MyArgumentParser.instance:
-            MyArgumentParser.instance = MyArgumentParser.__MyArgumentParser(*arg)
+        if not PySmtpArgumentParser.instance:
+            PySmtpArgumentParser.instance = PySmtpArgumentParser.__MyArgumentParser(*arg)
 
     def __getattr__(self, name):
         return getattr(self.instance, name)

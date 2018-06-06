@@ -55,7 +55,7 @@ class PySmtpController(Controller):
         if self.state != SmtpReceiverState.RUNNING:
             print("Can't execute stop command, there is no server running!")
             return
-        print("Exit SMTP server...", end='')
+        print("Stopping SMTP server...", end='')
         super().stop()
         print("...SMTP server stopped!")
         self.state = SmtpReceiverState.STOPPED

@@ -1,16 +1,18 @@
-import cmd
-from smtp_utils.receiver_state import SmtpReceiverState
-from smtp_controller.message_handler import MessageHandler
-from smtp_controller.smtp_controller import PySmtpController
+from cmd import Cmd
+from smtp_utils import SmtpReceiverState
+from smtp_controller import MessageHandler, PySmtpController
+from .arguments_parser import PySmtpArgumentParser
 
 
-class PySmtpShell(cmd.Cmd):
+class PySmtpShell(Cmd):
     intro = 'Welcome to PySmtp4Dev, SMTP test server for developers.\nType help or ? to list commands.\n'
     prompt = '(PySmtp4Dev)$ '
 
-    def __init__(self, arguments, parser):
-        self.arguments = arguments
+    def __init__(self, arguments, parser=None):
+        if not parser:
+            parser = PySmtpArgumentParser().instance
         self.parser = parser
+        self.arguments = arguments
         handler = MessageHandler(file_logging=arguments.file_log, log_dir=arguments.log_dir,
                                  max_email=arguments.max_email)
         self.receiver = PySmtpController(handler, arguments)
