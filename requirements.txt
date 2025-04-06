@@ -1,0 +1,5 @@
+httpx
+fastapi[all]
+uvicorn
+pyOpenSSL
+aiosmtpd[all]
