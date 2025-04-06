@@ -6,6 +6,7 @@ class PySmtpController(Controller):
     def __init__(self, handler, arguments=None, *args, **kwargs):
         self.state = SmtpReceiverState.INIT
         self.arguments = arguments
+        self.enable_SMTPUTF8 = kwargs.get("enable_SMTPUTF8", True)
         super().__init__(handler,
                          hostname=arguments.ip_address_local if arguments else None,
                          port=arguments.port_local if arguments else 8025,
@@ -22,6 +23,7 @@ class PySmtpController(Controller):
             print("Can't set server parameters while server is already running."
                   "Please stop server first to change parameters.")
             return
+        
         if arguments:
             self.arguments = arguments
             self.state = SmtpReceiverState.READY
@@ -41,11 +43,13 @@ class PySmtpController(Controller):
         if self.state == SmtpReceiverState.RUNNING:
             print("Server already running.")
             return
+        
         if self.state != SmtpReceiverState.RUNNING and self.state != SmtpReceiverState.INIT:
             if not self.arguments and not arguments:
                 print("Server not configured, please set at least local"
                       " address and the local port to start listening.")
                 return
+        
         print("Starting SMTP server on (Address = %s, Port = %s)" % (self.hostname, str(self.port)))
         super().start()
         self.state = SmtpReceiverState.RUNNING
@@ -55,6 +59,7 @@ class PySmtpController(Controller):
         if self.state != SmtpReceiverState.RUNNING:
             print("Can't execute stop command, there is no server running!")
             return
+        
         print("Stopping SMTP server...", end='')
         super().stop()
         print("...SMTP server stopped!")

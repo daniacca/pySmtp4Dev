@@ -19,9 +19,16 @@ class PySmtpShell(Cmd):
         super(PySmtpShell, self).__init__()
 
     def __parse(self, arg):
+        """ Split the given string in arguments, similar to the default cmd.Cmd's
+        parse method. The split is done on spaces, and the returned arguments are
+        strings."""
         return tuple(map(str, arg.split()))
 
     def preloop(self):
+        """ Executes tasks before the command loop starts. If arguments are provided,
+        sets the server parameters. If auto_start is enabled in the arguments,
+        attempts to start the server with the specified or default parameters.
+        """
         if self.arguments:
             self.receiver.set_parameters(self.arguments)
             if self.arguments.auto_start:
