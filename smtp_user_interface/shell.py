@@ -13,8 +13,7 @@ class PySmtpShell(Cmd):
             parser = PySmtpArgumentParser().instance
         self.parser = parser
         self.arguments = arguments
-        handler = MessageHandler(file_logging=arguments.file_log, log_dir=arguments.log_dir,
-                                 max_email=arguments.max_email)
+        handler = MessageHandler(file_logging=arguments.file_log, log_dir=arguments.log_dir, max_email=arguments.max_email)
         self.receiver = PySmtpController(handler, arguments)
         super(PySmtpShell, self).__init__()
 
