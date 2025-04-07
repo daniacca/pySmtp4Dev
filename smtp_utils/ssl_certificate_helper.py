@@ -10,13 +10,13 @@ KEY_FILE = "PySmtp4Dev.key"
 
 def create_self_signed_cert(cert_dir="."):
     """
-    If datacard.crt and datacard.key don't exist in cert_dir, create a new
+    If crt and key don't exist in cert_dir, create a new
     self-signed cert and keypair and write them into that directory.
     """
     if not exists(join(cert_dir, CERT_FILE)) or not exists(join(cert_dir, KEY_FILE)):
         # create a key pair
         k = crypto.PKey()
-        k.generate_key(crypto.TYPE_RSA, 1024)
+        k.generate_key(crypto.TYPE_RSA, 4096)
 
         # create a self-signed cert
         cert = crypto.X509()
