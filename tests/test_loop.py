@@ -1,4 +1,3 @@
-# tests/test_loop.py
 from unittest.mock import patch, MagicMock
 from smtp_user_interface.loop import loop  # importa la funzione, non il modulo
 
@@ -31,6 +30,7 @@ def test_loop_prints_email_and_handles_interrupt(mock_handler_cls, mock_controll
         loop()
 
     # Assert
+    mock_sleep.assert_any_call(0.1)
     mock_handler_cls.assert_called_once()
     mock_controller_cls.assert_called_once()
     mock_receiver.start.assert_called_once()
