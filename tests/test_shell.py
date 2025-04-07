@@ -140,3 +140,39 @@ def test_shell_last_email_without_email():
         shell.do_last_email("")
 
         mock_print.assert_called_with("No email in the receiver buffer!")
+
+def test_shell_preloop_with_auto_start():
+    arguments = MagicMock()
+    arguments.auto_start = True
+
+    receiver_mock = MagicMock()
+
+    with patch("smtp_user_interface.shell.MessageHandler"), \
+         patch("smtp_user_interface.shell.PySmtpController", return_value=receiver_mock), \
+         patch("smtp_user_interface.shell.print") as mock_print:
+
+        shell = PySmtpShell(arguments)
+        shell.receiver = receiver_mock
+
+        shell.preloop()
+
+        receiver_mock.set_parameters.assert_called_once_with(arguments)
+        receiver_mock.start.assert_called_once()
+        mock_print.assert_any_call("Selected Auto start mode => trying to start server using the given/default parameters..")
+
+def test_shell_preloop_without_auto_start():
+    arguments = MagicMock()
+    arguments.auto_start = False
+
+    receiver_mock = MagicMock()
+
+    with patch("smtp_user_interface.shell.MessageHandler"), \
+         patch("smtp_user_interface.shell.PySmtpController", return_value=receiver_mock):
+
+        shell = PySmtpShell(arguments)
+        shell.receiver = receiver_mock
+
+        shell.preloop()
+
+        receiver_mock.set_parameters.assert_called_once_with(arguments)
+        receiver_mock.start.assert_not_called()
