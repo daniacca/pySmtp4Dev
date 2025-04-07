@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  smtp-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: smtp-server
+    hostname: smtp-server.io
+    ports:
+      - "2525:2525"
+    command: ["-ssl"]
