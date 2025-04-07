@@ -1,4 +1,4 @@
-version: "3.8"
+name: "smtp-server"
 
 services:
   smtp-server:
@@ -9,4 +9,6 @@ services:
     hostname: smtp-server.io
     ports:
       - "2525:2525"
-    command: ["-ssl"]
+    volumes:
+      - ../data/email_log:/app/email_log
+    command: ["-ssl", "-as", "-f", "-ld", "/app/email_log"]

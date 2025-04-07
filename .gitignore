@@ -217,4 +217,5 @@ $RECYCLE.BIN/
 *.lnk
 *.eml
 
-# End of https://www.gitignore.io/api/linux,python,windows,executable,pycharm+all
+data
+data/*
