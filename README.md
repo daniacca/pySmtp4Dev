@@ -1,5 +1,9 @@
 # Pysmtp4dev
 
+![CI](https://github.com/daniacca/pysmtp4dev/actions/workflows/deploy.yml/badge.svg)
+![Docker Pulls](https://img.shields.io/docker/pulls/kaelisra/pysmtp4dev)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 A lightweight, Docker-friendly debug SMTP server written in Python — ideal for development and testing email-sending applications.
 
 ---
@@ -149,7 +153,23 @@ Docker images are available at:
 
 ## 📄 License
 
-View [LICENSE](./LICENSE).
+This project is licensed under the terms of the [GNU General Public License v3.0](./LICENSE).
+
+See [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html) for more information.
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
+
+Feel free to:
+
+- 🐞 Report bugs
+- 💡 Suggest features
+- 📥 Open pull requests
+
+Please follow the standard [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow) when submitting PRs.
 
 ---
 
