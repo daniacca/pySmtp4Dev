@@ -1,6 +1,6 @@
 # Pysmtp4dev
 
-![CI](https://github.com/daniacca/pysmtp4dev/actions/workflows/deploy.yml/badge.svg)
+![CI](https://github.com/daniacca/pysmtp4dev/actions/workflows/release.yml/badge.svg)
 ![Docker Pulls](https://img.shields.io/docker/pulls/kaelisra/pysmtp4dev)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
